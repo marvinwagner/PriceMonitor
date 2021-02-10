@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{EC28E37D-A739-4005-BA87-EE18F65830C4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{07825E01-C472-4EFC-B974-0675866DEDDE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{FF71A8CE-E2EA-4B28-9D63-4030159F2E71}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceMonitor.WebApi", "src\PriceMonitor.WebApi\PriceMonitor.WebApi.csproj", "{FB25BAD6-B2F6-458A-9097-F135C1484862}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceMonitor.Core", "src\PriceMonitor.Core\PriceMonitor.Core.csproj", "{3DCCAF38-825C-4EAE-A765-863A1B964F60}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FB25BAD6-B2F6-458A-9097-F135C1484862}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB25BAD6-B2F6-458A-9097-F135C1484862}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB25BAD6-B2F6-458A-9097-F135C1484862}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB25BAD6-B2F6-458A-9097-F135C1484862}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DCCAF38-825C-4EAE-A765-863A1B964F60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DCCAF38-825C-4EAE-A765-863A1B964F60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DCCAF38-825C-4EAE-A765-863A1B964F60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DCCAF38-825C-4EAE-A765-863A1B964F60}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FB25BAD6-B2F6-458A-9097-F135C1484862} = {07825E01-C472-4EFC-B974-0675866DEDDE}
+		{3DCCAF38-825C-4EAE-A765-863A1B964F60} = {EC28E37D-A739-4005-BA87-EE18F65830C4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5BA62981-91F0-453C-9F9F-5D5D87977662}
+	EndGlobalSection
+EndGlobal
