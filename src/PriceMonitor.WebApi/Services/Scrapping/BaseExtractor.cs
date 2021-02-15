@@ -30,12 +30,14 @@ namespace PriceMonitor.WebApi.Services.Scrapping
         }
 
         protected abstract void FillValues();
+        protected abstract void CheckAvailability();
 
         public async Task<bool> ExtractValues(Item item)
         {
             await Call(item.Url);
 
             FillValues();
+            CheckAvailability();
 
             return InCashValue != item.CurrentInCashValue ||
                    NormalValue != item.CurrentNormalValue ||

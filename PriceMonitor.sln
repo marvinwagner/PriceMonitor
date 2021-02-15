@@ -7,11 +7,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{EC28E37D-A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{07825E01-C472-4EFC-B974-0675866DEDDE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{FF71A8CE-E2EA-4B28-9D63-4030159F2E71}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceMonitor.WebApi", "src\PriceMonitor.WebApi\PriceMonitor.WebApi.csproj", "{FB25BAD6-B2F6-458A-9097-F135C1484862}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceMonitor.WebApi", "src\PriceMonitor.WebApi\PriceMonitor.WebApi.csproj", "{FB25BAD6-B2F6-458A-9097-F135C1484862}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceMonitor.Core", "src\PriceMonitor.Core\PriceMonitor.Core.csproj", "{3DCCAF38-825C-4EAE-A765-863A1B964F60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriceMonitor.Core", "src\PriceMonitor.Core\PriceMonitor.Core.csproj", "{3DCCAF38-825C-4EAE-A765-863A1B964F60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

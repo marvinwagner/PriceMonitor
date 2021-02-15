@@ -18,9 +18,22 @@ namespace PriceMonitor.WebApi.Setup
 
             services.AddControllers();
 
+            services.AddSignalR();
+
             services.AddCors(options =>
             {
-                options.AddPolicy("Total", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+                options.AddPolicy("Development", b =>
+                    b.WithOrigins("http://localhost:8080")
+                    .AllowCredentials()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
+
+                options.AddPolicy("Production", b =>
+                    b.WithMethods("GET", "PUT", "POST", "DELETE")
+                    .WithOrigins("http://localhost:8080")
+                    .SetIsOriginAllowedToAllowWildcardSubdomains()
+                    //.WithHeaders(HeaderNames.ContentType, "x-custom-header")
+                    .AllowAnyHeader());
             });
 
             services.RegisterServices();
@@ -33,18 +46,19 @@ namespace PriceMonitor.WebApi.Setup
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseCors("Development");
             }
+            else
+                app.UseCors("Production");
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseCors("Total");
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<ItemEventsHub>("/chathub");
+                endpoints.MapHub<ItemEventsHub>("/updates");
             });
 
             return app;

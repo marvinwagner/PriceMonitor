@@ -10,6 +10,7 @@ namespace PriceMonitor.WebApi.Applications.Events
         public decimal NormalValue { get; private set; }
         public decimal FullValue { get; private set; }
         public bool Available { get; private set; }
+        public DateTime CreatedAt { get; private set; }
 
         public PriceUpdatedEvent(Guid itemId, decimal inCashValue, decimal normalValue, decimal fullValue, bool available)
         {
@@ -19,6 +20,7 @@ namespace PriceMonitor.WebApi.Applications.Events
             NormalValue = normalValue;
             FullValue = fullValue;
             Available = available;
+            CreatedAt = DateTime.Now;
         }
     }
 }

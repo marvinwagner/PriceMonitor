@@ -10,9 +10,9 @@ namespace PriceMonitor.WebApi.Applications.Events
         INotificationHandler<ItemCreatedEvent>,
         INotificationHandler<PriceUpdatedEvent>
     {
-        private readonly IHubContext<ItemEventsHub> _hubContext;
+        private readonly IHubContext<ItemEventsHub, IItemEventsHub> _hubContext;
 
-        public ItemEventHandler(IHubContext<ItemEventsHub> hubContext)
+        public ItemEventHandler(IHubContext<ItemEventsHub, IItemEventsHub> hubContext)
         {
             _hubContext = hubContext;
         }
@@ -23,7 +23,7 @@ namespace PriceMonitor.WebApi.Applications.Events
 
         public Task Handle(PriceUpdatedEvent notification, CancellationToken cancellationToken)
         {
-            _hubContext.Clients.All.SendAsync("priceUpdated", notification, cancellationToken);
+            _hubContext.Clients.All.PriceUpdated(notification);
 
             return Task.CompletedTask;
         }

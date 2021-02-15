@@ -15,7 +15,7 @@
             FullValue = ExtractValueFromTags(FullValueTag);
         }
 
-        protected void CheckAvailability()
+        protected override void CheckAvailability()
         {
             IsAvailable = Document.QuerySelector(AvailabilityTag) == null;                
         }

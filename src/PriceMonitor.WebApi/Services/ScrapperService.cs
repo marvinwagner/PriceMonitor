@@ -30,17 +30,22 @@ namespace PriceMonitor.WebApi.Services
             _logger.LogInformation("Scrapper Hosted Service running.");
 
 
-            _timer = new Timer(DoWork, null, TimeSpan.Zero,
+            _timer = new Timer(TimedWork, null, TimeSpan.Zero,
                 TimeSpan.FromSeconds(30));
 
             return Task.CompletedTask;
         }
 
 
-        private async void DoWork(object state)
+        private void TimedWork(object state)
         {
             _logger.LogInformation("Scrapper Hosted Service is working.");
 
+            Task.Run(BeginExtraction);
+        }
+
+        private async Task BeginExtraction()
+        {
             using var scope = _serviceProvider.CreateScope();
             var repository = scope.ServiceProvider.GetRequiredService<IItemRepository>();
             var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
@@ -55,7 +60,7 @@ namespace PriceMonitor.WebApi.Services
                     var extractor = ExtractorFactory.Create(x.Url);
                     if (await extractor.ExtractValues(x))
                     {
-                        _logger.LogInformation($"Price changed for {x.Name}");
+                        _logger.LogInformation($"Price changed for {x.Name} to {extractor.InCashValue}");
                         commandList.Add(new UpdatePriceCommand(x.Id, extractor.InCashValue, extractor.NormalValue, extractor.FullValue, extractor.IsAvailable));
                     }
                 }
