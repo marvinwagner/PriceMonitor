@@ -13,11 +13,12 @@ using PriceMonitor.WebApi.Services.Scrapping;
 
 namespace PriceMonitor.WebApi.Services
 {
-    public sealed class ScrapperService : IHostedService, IDisposable
+    public sealed class ScrapperService : BackgroundService, IDisposable
     {
         private readonly ILogger<ScrapperService> _logger;
         private readonly IServiceProvider _serviceProvider;
         private Timer _timer;
+        private CancellationToken _ct;
 
         public ScrapperService(ILogger<ScrapperService> logger, IServiceProvider serviceProvider)
         {
@@ -25,13 +26,13 @@ namespace PriceMonitor.WebApi.Services
             _serviceProvider = serviceProvider;
         }
 
-        public Task StartAsync(CancellationToken cancellationToken)
+        protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation("Scrapper Hosted Service running.");
 
+            _ct = stoppingToken;
 
-            _timer = new Timer(TimedWork, null, TimeSpan.Zero,
-                TimeSpan.FromSeconds(30));
+            _timer = new Timer(TimedWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(30));
 
             return Task.CompletedTask;
         }
@@ -41,44 +42,61 @@ namespace PriceMonitor.WebApi.Services
         {
             _logger.LogInformation("Scrapper Hosted Service is working.");
 
-            Task.Run(BeginExtraction);
+            Task.FromResult(BeginExtraction(_ct));
         }
 
-        private async Task BeginExtraction()
+        private async Task BeginExtraction(CancellationToken cancellationToken)
         {
-            using var scope = _serviceProvider.CreateScope();
-            var repository = scope.ServiceProvider.GetRequiredService<IItemRepository>();
-            var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-
-            var commandList = new ConcurrentBag<UpdatePriceCommand>();
-
-            var items = await repository.ListAll();
-            var tasks = items.Select(async (x) =>
+            try
             {
-                try
+                using var scope = _serviceProvider.CreateScope();
+                var repository = scope.ServiceProvider.GetRequiredService<IItemRepository>();
+                var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+
+                var commandList = new ConcurrentBag<UpdatePriceCommand>();
+
+                var items = await repository.ListAll();
+                var tasks = items.Select(async (x) =>
                 {
-                    var extractor = ExtractorFactory.Create(x.Url);
-                    if (await extractor.ExtractValues(x))
+                    try
                     {
-                        _logger.LogInformation($"Price changed for {x.Name} to {extractor.InCashValue}");
-                        commandList.Add(new UpdatePriceCommand(x.Id, extractor.InCashValue, extractor.NormalValue, extractor.FullValue, extractor.IsAvailable));
+                        if (!cancellationToken.IsCancellationRequested)
+                        {
+                            var extractor = ExtractorFactory.Create(x.Url);
+                            if (await extractor.ExtractValues(x, cancellationToken))
+                            {
+                                _logger.LogInformation($"Price changed for {x.Name} to {extractor.InCashValue}");
+                                commandList.Add(new UpdatePriceCommand(x.Id, extractor.InCashValue, extractor.NormalValue, extractor.FullValue, extractor.IsAvailable));
+                            }
+                        }                        
                     }
-                }
-                catch (Exception e)
+                    catch (Exception e)
+                    {
+                        _logger.LogError($"Error calling url for product {x.Name}.", e);
+                    }
+                });
+
+                await Task.WhenAll(tasks);
+
+                foreach (var cmd in commandList)
                 {
-                    _logger.LogError($"Error calling url for product {x.Name}.", e);
+                    await mediator.Send(cmd, cancellationToken);
                 }
-            });
-
-            await Task.WhenAll(tasks);
-
-            foreach (var cmd in commandList)
-            {
-                await mediator.Send(cmd);
             }
+            catch (OperationCanceledException e)
+            {
+                _logger.LogInformation("Cancelling " + e.Message);
+
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    _logger.LogInformation("Cancelling per user request.");
+                    cancellationToken.ThrowIfCancellationRequested();
+                }
+            }
+            
         }
 
-        public Task StopAsync(CancellationToken cancellationToken)
+        public override Task StopAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Scrapper Hosted Service is stopping.");
 
@@ -87,9 +105,10 @@ namespace PriceMonitor.WebApi.Services
             return Task.CompletedTask;
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             _timer?.Dispose();
+            base.Dispose();
         }
     }
 }

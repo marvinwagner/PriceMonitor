@@ -4,6 +4,7 @@ using PriceMonitor.WebApi.Models;
 using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace PriceMonitor.WebApi.Services.Scrapping
@@ -19,22 +20,22 @@ namespace PriceMonitor.WebApi.Services.Scrapping
         public decimal FullValue { get; set; }
         public bool IsAvailable { get; set; }
 
-        public virtual async Task Call(string url)
+        public virtual async Task Call(string url, CancellationToken ct = default)
         {
             // Load default configuration
             var config = Configuration.Default.WithDefaultLoader();
             // Create a new browsing context
             var context = BrowsingContext.New(config);
 
-            Document = await context.OpenAsync(url);
+            Document = await context.OpenAsync(url, ct);
         }
 
         protected abstract void FillValues();
         protected abstract void CheckAvailability();
 
-        public async Task<bool> ExtractValues(Item item)
+        public async Task<bool> ExtractValues(Item item, CancellationToken cancellationToken = default)
         {
-            await Call(item.Url);
+            await Call(item.Url, cancellationToken);
 
             FillValues();
             CheckAvailability();

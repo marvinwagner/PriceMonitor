@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace PriceMonitor.WebApi.Services.Scrapping
@@ -13,7 +14,7 @@ namespace PriceMonitor.WebApi.Services.Scrapping
         public decimal FullValue { get; set; }
         public bool IsAvailable { get; set; }
 
-        Task<bool> ExtractValues(Item item);
+        Task<bool> ExtractValues(Item item, CancellationToken cancellationToken);
     }
 
     public static class ExtractorFactory
