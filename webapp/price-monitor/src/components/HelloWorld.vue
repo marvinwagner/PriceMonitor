@@ -13,7 +13,43 @@
             <span class="badge badge-secondary badge-pill">{{this.$store.state.history.length}}</span>
           </h4>
           <ul class="list-group mb-3">
-            
+            <li class="list-group-item d-flex flex-column justify-content-between lh-condensed">              
+              
+              <div>
+                <h6 class="my-0">Ryzen 5 3600</h6>
+                <!-- <small class="text-muted">Brief description</small> -->
+              </div>
+
+              <div class="d-flex justify-content-between lh-condensed">
+                
+                <div class="d-flex flex-column">
+                  <small class="text-muted">In Cash</small>
+                  <small class="text-muted">R$ 504,30</small>
+                  <span class="text-muted"> <BIconArrowUp/> asd</span>
+
+                </div>
+                <div class="d-flex flex-column">
+                  <small class="text-muted">Normal</small>
+                  <small class="text-muted">R$ 504,30</small>
+                  <span class="text-muted"> <BIconArrowUp/> asd</span>
+
+                </div>
+                <div class="d-flex flex-column ">
+                  <small class="text-muted">Full</small>
+                  <small class="text-muted">R$ 504,30</small>
+                  <span class="text-muted"> <BIconArrowUp/> asd</span>
+
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between lh-condensed">
+              <div>
+                <h6 class="my-0">123</h6>
+                <!-- <small class="text-muted">Brief description</small> -->
+              </div>
+              <span class="text-muted">asd</span>
+            </li>
+
             <li class="list-group-item d-flex justify-content-between lh-condensed"
               v-for="evt in this.$store.state.history" :key="evt.id"
             >
