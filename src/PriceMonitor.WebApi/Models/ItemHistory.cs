@@ -9,17 +9,17 @@ namespace PriceMonitor.WebApi.Models
         public decimal InCashValue { get; private set; }
         public decimal NormalValue { get; private set; }
         public decimal FullValue { get; private set; }
-        public bool Available { get; private set; }
+        public bool IsAvailable { get; private set; }
         // EF Core
         public Item Item { get; private set; }
 
-        public ItemHistory(Guid itemId, decimal inCashValue, decimal normalValue, decimal fullValue, bool available)
+        public ItemHistory(Guid itemId, decimal inCashValue, decimal normalValue, decimal fullValue, bool isAvailable)
         {
             ItemId = itemId;
             InCashValue = inCashValue;
             NormalValue = normalValue;
             FullValue = fullValue;
-            Available = available;
+            IsAvailable = isAvailable;
         }
     }
 }

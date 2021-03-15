@@ -12,11 +12,11 @@ namespace PriceMonitor.WebApi.Data.Mappings
 
             builder.Property(e => e.Name)
                 .IsRequired()
-                .HasColumnType("varchar(100)");
+                .HasColumnType("varchar(300)");
 
             builder.Property(e => e.Url)
                 .IsRequired()
-                .HasColumnType("varchar(250)");
+                .HasColumnType("varchar(300)");
 
             builder.Property(e => e.CurrentInCashValue).HasColumnType("money");
             builder.Property(e => e.CurrentNormalValue).HasColumnType("money");

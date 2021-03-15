@@ -37,7 +37,7 @@ namespace PriceMonitor.WebApi.Controllers
                 CurrentInCashValue = i.CurrentInCashValue,
                 CurrentNormalValue = i.CurrentNormalValue,
                 CurrentFullValue = i.CurrentFullValue,
-                IsAvailable = i.Available
+                IsAvailable = i.IsAvailable
             }));
         }
 

@@ -9,16 +9,17 @@ const vuexLocal = new VuexPersistence({
 
 Vue.use(Vuex)
 
+Array.prototype.removeIf = function(callback) {
+    var i = this.length;
+    while (i--) {
+        if (callback(this[i], i)) {
+            this.splice(i, 1);
+        }
+    }
+};
+
 const state = {
-  items: {    
-    id: '',
-    name: '', 
-    url: '',
-    currentInCashValue: 0,
-    currentNormalValue: 0,
-    currentFullValue: 0,
-    isAvailable: false
-  },
+  items: [],
   history: [],
   errors: []
 }
@@ -41,6 +42,12 @@ const mutations = {
   },
   clearErrors(state) {
     state.errors = []
+  },
+  clearOldHistory(state) {
+    var res = state.history.removeIf((obj) => {
+      return Date.parse(obj.createdAt) < Date.now()-86400000
+    });
+    console.log(res)
   }
 }
 

@@ -52,12 +52,12 @@ namespace PriceMonitor.WebApi.Applications.Commands
             }
 
             existingItem.UpdateValues(request.InCashValue, request.NormalValue, request.FullValue);
-            existingItem.SetAvailability(request.Available);
+            existingItem.SetAvailability(request.IsAvailable);
 
-            var history = new ItemHistory(request.ItemId, request.InCashValue, request.NormalValue, request.FullValue, request.Available);
+            var history = new ItemHistory(request.ItemId, request.InCashValue, request.NormalValue, request.FullValue, request.IsAvailable);
             _itemRepository.AddHistory(history);
 
-            existingItem.AddEvent(new PriceUpdatedEvent(request.ItemId, request.InCashValue, request.NormalValue, request.FullValue, request.Available));
+            existingItem.AddEvent(new PriceUpdatedEvent(request.ItemId, request.InCashValue, request.NormalValue, request.FullValue, request.IsAvailable));
 
             return await Persist(_itemRepository.UnitOfWork);
         }

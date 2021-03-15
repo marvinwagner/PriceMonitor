@@ -12,12 +12,12 @@ namespace PriceMonitor.WebApi.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "varchar(100)", nullable: false),
-                    Url = table.Column<string>(type: "varchar(250)", nullable: false),
+                    Name = table.Column<string>(type: "varchar(300)", nullable: false),
+                    Url = table.Column<string>(type: "varchar(300)", nullable: false),
                     CurrentInCashValue = table.Column<decimal>(type: "money", nullable: false),
                     CurrentNormalValue = table.Column<decimal>(type: "money", nullable: false),
                     CurrentFullValue = table.Column<decimal>(type: "money", nullable: false),
-                    Available = table.Column<bool>(type: "bit", nullable: false)
+                    IsAvailable = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,7 +33,7 @@ namespace PriceMonitor.WebApi.Data.Migrations
                     InCashValue = table.Column<decimal>(type: "money", nullable: false),
                     NormalValue = table.Column<decimal>(type: "money", nullable: false),
                     FullValue = table.Column<decimal>(type: "money", nullable: false),
-                    Available = table.Column<bool>(type: "bit", nullable: false)
+                    IsAvailable = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

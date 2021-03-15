@@ -30,6 +30,7 @@ namespace PriceMonitor.WebApi.Services.Scrapping
             Document = await context.OpenAsync(url, ct);
         }
 
+        protected abstract bool ConfirmIfLoaded();
         protected abstract void FillValues();
         protected abstract void CheckAvailability();
 
@@ -37,13 +38,15 @@ namespace PriceMonitor.WebApi.Services.Scrapping
         {
             await Call(item.Url, cancellationToken);
 
+            if (!ConfirmIfLoaded()) return false;
+
             FillValues();
             CheckAvailability();
 
             return InCashValue != item.CurrentInCashValue ||
                    NormalValue != item.CurrentNormalValue ||
                    FullValue != item.CurrentFullValue ||
-                   IsAvailable != item.Available;
+                   IsAvailable != item.IsAvailable;
         }
 
 

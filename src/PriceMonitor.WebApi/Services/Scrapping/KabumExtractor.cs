@@ -7,6 +7,7 @@
         private readonly string[] NormalValueTag = new string[] { ".preco_desconto-cm", ".preco_normal" };
         private readonly string[] FullValueTag = new string[] { ".preco_antigo-cm", ".preco_antigo" };
         private readonly string AvailabilityTag = ".produto_indisponivel";
+        private readonly string TitleTag = ".titulo_det";
 
         protected override void FillValues()
         {
@@ -18,6 +19,11 @@
         protected override void CheckAvailability()
         {
             IsAvailable = Document.QuerySelector(AvailabilityTag) == null;                
+        }
+
+        protected override bool ConfirmIfLoaded()
+        {
+            return Document.QuerySelector(TitleTag) != null;
         }
     }
 }

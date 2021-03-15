@@ -12,7 +12,7 @@ namespace PriceMonitor.WebApi.Models
         public decimal CurrentInCashValue { get; private set; }
         public decimal CurrentNormalValue { get; private set; }
         public decimal CurrentFullValue { get; private set; }
-        public bool Available { get; private set; }
+        public bool IsAvailable { get; private set; }
         // EF Core
         public IReadOnlyCollection<ItemHistory> History => _history;
 
@@ -22,7 +22,7 @@ namespace PriceMonitor.WebApi.Models
         {
             Name = name;
             Url = url;
-            Available = false;
+            IsAvailable = false;
             _history = new List<ItemHistory>();
         }
 
@@ -35,7 +35,7 @@ namespace PriceMonitor.WebApi.Models
 
         public void SetAvailability(bool available)
         {
-            Available = available;
+            IsAvailable = available;
         }
     }
 }

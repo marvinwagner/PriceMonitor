@@ -10,16 +10,16 @@ namespace PriceMonitor.WebApi.Applications.Commands
         public decimal InCashValue { get; private set; }
         public decimal NormalValue { get; private set; }
         public decimal FullValue { get; private set; }
-        public bool Available { get; private set; }
+        public bool IsAvailable { get; private set; }
 
-        public UpdatePriceCommand(Guid itemId, decimal inCashValue, decimal normalValue, decimal fullValue, bool available)
+        public UpdatePriceCommand(Guid itemId, decimal inCashValue, decimal normalValue, decimal fullValue, bool isAvailable)
         {
             AggregateId = itemId;
             ItemId = itemId;
             InCashValue = inCashValue;
             NormalValue = normalValue;
             FullValue = fullValue;
-            Available = available;
+            IsAvailable = isAvailable;
         }
 
         public override bool IsValid()
